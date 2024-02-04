@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="node_modules/bootstrap/dist/css/bootstrap.css">
+</head>
+
+<body>
+    <script src="node_modules/jquery/dist/jquery.js"></script>
+    <script src="node_modules/bootstrap/dist/js/bootstrap.bundle.js"></script>
+    <div id="root"></div>
+    <input id="name" placeholder="Name" />
+    <input id="Hits" placeholder="Hits" />
+    <input id="Total Shots" placeholder="Total Shots" />
+    <button onclick="addRow()">Submit</button>
+</body>
+
+<script>
+    const tableHeaders = ["Name", "Hits", "Total Shots"];
+    const tableRows = [
+        {
+            Name: "Eduardo",
+            Hits: 8,
+            totalShots: 10,
+        },
+        {
+            Name: "Sam",
+            Hits: 7,
+            totalShots: 10,
+        },
+        {
+            Name: "Michael",
+            Hits: 10,
+            totalShots: 10,
+        },
+    ];
+
+    function createHeaders() {
+        const headerRow = document.createElement("tr");
+
+        for (const header of tableHeaders) {
+            const cell = document.createElement("td");
+            const text = document.createTextNode(header);
+            cell.appendChild(text);
+            headerRow.appendChild(cell);
+        }
+        const headerNode = document.getElementById("tableHead");
+        headerNode.appendChild(headerRow);
+    }
+
+    function createRows() {
+        for (const Hits of tableRows) {
+            const newRow = document.createElement("tr");
+            for (const value of Object.values(Hits)) {
+                const cell = document.createElement("td");
+                const text = document.createTextNode(value);
+                cell.appendChild(text);
+                newRow.appendChild(cell);
+            }
+            const bodyNode = document.getElementById("tableBody");
+            bodyNode.appendChild(newRow);
+        }
+    }
+
+    function clearTable() {
+        const tableBody = document.getElementById("tableBody");
+        while (tableBody.firstChild) {
+            tableBody.removeChild(tableBody.firstChild);
+        }
+    }
+
+    function populateTable() {
+        clearTable();
+        createRows();
+    }
+
+    function createTable() {
+        const table = document.createElement("table");
+        const tableHead = document.createElement("thead");
+        tableHead.setAttribute("id", "tableHead");
+        const tableBody = document.createElement("tbody");
+        tableBody.setAttribute("id", "tableBody");
+        table.appendChild(tableHead);
+        table.appendChild(tableBody);
+        const root = document.getElementById("root");
+        root.appendChild(table);
+    }
+
+    function setup() {
+        createTable();
+        createHeaders();
+        populateTable();
+    }
+
+    function addRow() {
+        const name = document.getElementById("name").value;
+        const Hits = document.getElementById("Hits").value;
+        const totalShots = document.getElementById("totalShots").value;
+
+        const newRow = {
+            name,
+            Hits,
+            totalShots,
+        };
+
+        tableRows.push(newRow);
+        populateTable();
+    }
+
+    setup();
+</script>
+
+</html>
